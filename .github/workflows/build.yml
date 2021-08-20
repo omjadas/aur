@@ -1,0 +1,24 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        pkgname:
+          - amazon-ec2-instance-selector-bin
+          - kube-score-bin
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: pkgbuild
+          pkgname: ${{ matrix.pkgname }}
+      - uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: srcinfo
+          pkgname: ${{ matrix.pkgname }}
